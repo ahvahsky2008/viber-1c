@@ -461,10 +461,10 @@ function insertOnefile($baseText,$authDate,$filename,$unicname)
 
 function getConnectionDB()
 {
-	$connectionString =  getenv('MONGODB_URI');
-	$connectionString = str_replace("'","",$connectionString);
-	$arr = array_reverse(explode('/', $connectionString));
-	$dbName = $arr[0];
+	$dbName = "Axixa";
+$connectionString = "mongodb://localhost:27017";
+
+
 	
 	if (!$dbName) {
 		die('no db name');
