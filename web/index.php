@@ -1,5 +1,7 @@
 <?php
-require_once __DIR__ . "/vendor/autoload.php";
+#require_once __DIR__ . "/vendor/autoload.php";
+require('../vendor/autoload.php');
+
 $REQUEST_METHOD = "";
 $countUserFiles = 100;
 $countUserQuery = 100;
