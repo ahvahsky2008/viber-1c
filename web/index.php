@@ -1,13 +1,13 @@
 <?php
-require('../vendor/autoload.php');
-
+require_once __DIR__ . "/vendor/autoload.php";
 $REQUEST_METHOD = "";
-$countUserFiles = 0;
-$countUserQuery = 0;
+$countUserFiles = 100;
+$countUserQuery = 100;
 $text           = "";
-$lengthFile 	= 0;
+$lengthFile 	= 10000;
 $noDel 			= false;
 $paid 			= "";
+
 
 initialize();
 
@@ -97,7 +97,7 @@ function initialize(){
 	
 	$REQUEST_METHOD = $_SERVER['REQUEST_METHOD'];
 	
-	$debug = getenv('DEBUG');
+	$debug = 'true';
 	
 	if ($debug){
 		
@@ -108,13 +108,13 @@ function initialize(){
 	
 	$noDel = false;
 	
-	$countUserFiles = getenv('COUNT_USER_FILES');
+	$countUserFiles = 0;
 	
-	$countUserQuery = getenv('COUNT_USER_QUERY');
+	$countUserQuery = 0;
 	
-	$lengthFile 	= getenv('MAX_FILE_SIZE');
+	$lengthFile 	= 1024;
 	
-	$paid = isset($_SERVER['HTTP_PAID']) ? $_SERVER['HTTP_PAID'] : "";
+	$paid = '5365000839950226059';
 	
 }
 
@@ -124,54 +124,8 @@ function CheckViberServer(){
 
 	$isCorrect = true;
 	$incorrectMessage = '';
-	if (!isset($_SERVER['HTTP_X_FORWARDED_PORT'])){
-		
-		$isCorrect = false;
-		$incorrectMessage = 'it is not https remote';
-		
-	}
 	
-	if (!isset($_SERVER['HTTP_X_FORWARDED_FOR'])){
-		
-		$isCorrect = false;
-		$incorrectMessage = 'it is not viber ip remote';
-		
-	}
-	else{
 	
-	if (!$_SERVER['HTTP_X_FORWARDED_PORT'] = "443"){
-		
-		$isCorrect = false;
-		$incorrectMessage = 'it is not https 443';	
-	}
-	
-		$vibersIP = '52.0.253.';
-		$curIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
-
-		if (!substr($curIP,0,9)==$vibersIP){
-			
-			$isCorrect = false;
-			$incorrectMessage = 'it is not viber ip remote';
-			
-		}
-	}
-	
-	if ( !isset($_SERVER['QUERY_STRING'])  ||  substr($_SERVER['QUERY_STRING'],0,5) !== "paid=" ){
-		
-		$isCorrect = false;
-		$incorrectMessage = 'no paid for save message'; 
-	}
-	else{
-
-		$paid = substr($_SERVER['QUERY_STRING'],5);
-
-        $numV = strpos($paid,'?');
-        
-        if (!$numV===false){
-            $paid = substr($paid,0,$numV);
-        }
-        
-	}
 
 	if (!$isCorrect)
 		{
@@ -183,10 +137,10 @@ function CheckViberServer(){
 	}
 	else
 	{
-		// $DataBase = getConnectionDB();
-		// $collection = $DataBase->logs;
-		// $post = array('time'     => time(),'server'     	=> $_SERVER	);
-		// $collection->insertOne($post);
+		 $DataBase = getConnectionDB();
+		 $collection = $DataBase->logs;
+		 $post = array('time'     => time(),'server'     	=> $_SERVER	);
+		 $collection->insertOne($post);
 	}
 	
 }
@@ -198,11 +152,12 @@ function getInfo(){
     <head>
         <meta charset='UTF-8'>
 		<meta name='viewport content='width=device-width, initial-scale=1, maximum-scale=1'>
-        <title>Viber Буфер 1С</title>
+        <title>Viber ����� 1�</title>
         <link rel='shorkcut icon' href='/images/favicon.ico'>
         <link rel='icon' type='image/gif' href='/images/animated_favicon1.gif'>
 		<link rel='apple-touch-icon' href='/images/apple-touch-icon.png' >
     </head>
+    axixa
     <body>
 		<script src='https://gist.github.com/best-tech/57ad9ccfa9405a4d028296d4d6e9694d.js'></script>
     </body>
@@ -358,8 +313,8 @@ function auth($WorkWithFile=false) {
 		die("Access forbidden");
 	}
 	
-	$login 	= getenv('LOGIN');
-	$pass 	= getenv('PASS');
+	$login 	= 'root';
+	$pass 	= 'toor';
 	
 	$currenntLogin 	= isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : "";
 	$currenntPass 	= isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : "";
@@ -369,14 +324,14 @@ function auth($WorkWithFile=false) {
 	if (($login||$pass) && !isset($_SERVER['PHP_AUTH_USER'])||!isset($_SERVER['PHP_AUTH_PW'])) {
 		header('WWW-Authenticate: Basic realm="viber-1c.herokuapp.com - need to login');
 		header('HTTP/1.0 401 Unauthorized');
-		echo "Вы должны ввести корректный логин и пароль для получения доступа к ресурсу \n";
+		echo "�� ������ ������ ���������� ����� � ������ ��� ��������� ������� � ������� \n";
 		die("Access forbidden");
 	}
 	
 	if (!$login=$currenntLogin || !$currenntPass=$pass) {
 		header('WWW-Authenticate: Basic realm="viber-1c.herokuapp.com - need to login');
 		header('HTTP/1.0 401 Unauthorized');
-		echo "Не верный логин или пароль \n";
+		echo "�� ������ ����� ��� ������ \n";
 		die("Access forbidden");
 	}
 	
@@ -461,24 +416,8 @@ function insertOnefile($baseText,$authDate,$filename,$unicname)
 
 function getConnectionDB()
 {
-	$dbName = "Axixa";
-$connectionString = "mongodb://localhost:27017";
-
-
-	
-	if (!$dbName) {
-		die('no db name');
-	}
-	;
-	
-	if (!$connectionString) {
-		die('no connection string');
-	}
-	;
-	$client = new MongoDB\Client($connectionString);
-	$DataBase = $client->$dbName;
-	
-	if (!$DataBase) return die('no db connection');
+	$client = new MongoDB\Client("mongodb://127.0.0.1:27017");
+	$DataBase = $client->axi;
 	
 	return $DataBase;
 }
